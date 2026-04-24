@@ -226,21 +226,32 @@ function speakLine() {
     if (!('speechSynthesis' in window)) return;
 
     const msg = new SpeechSynthesisUtterance(
-        "im cute and youre just aging HAHAHHAHHAHAHAH."
+        "k bye... remember... i'm cute... and you're just aging"
     );
 
     msg.volume = 1;
-    msg.rate = 0.95;
-    msg.pitch = 1.4;
+    msg.rate = 0.9;   // slower = more natural
+    msg.pitch = 1.2;  // softer, less chipmunk
 
+    // try better voice
     const voices = speechSynthesis.getVoices();
-    const softVoice = voices.find(v => v.name.toLowerCase().includes("google") || v.name.toLowerCase().includes("female"));
-    if (softVoice) msg.voice = softVoice;
+    const betterVoice = voices.find(v => 
+        v.name.toLowerCase().includes("google") ||
+        v.name.toLowerCase().includes("natural")
+    );
+    if (betterVoice) msg.voice = betterVoice;
 
     speechSynthesis.cancel();
     speechSynthesis.speak(msg);
-}
-</script>
 
+    // 🔥 play laugh AFTER speaking
+    msg.onend = () => {
+        const laugh = document.getElementById("laughSound");
+        if (laugh) {
+            laugh.currentTime = 0;
+            laugh.play();
+        }
+    };
+}
 </body>
 </html>
