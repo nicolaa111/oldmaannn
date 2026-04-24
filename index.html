@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For Lychee 💗</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #fceff9, #e0f7fa);
+    text-align: center;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.box {
+    background: rgba(255,255,255,0.9);
+    padding: 30px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 80px;
+    position: relative;
+}
+
+button {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    margin: 8px;
+    cursor: pointer;
+    background: #a0e7e5;
+}
+
+.hidden { display: none; }
+
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: floatUp 4s linear;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-700px); opacity: 0; }
+}
+
+.playlist-container {
+    position: relative;
+    width: 400px;
+    max-width: 90vw;
+    margin: auto;
+}
+
+.exit-btn {
+    position: absolute;
+    bottom: -50px;
+    right: 0;
+    background: #ff8fab;
+}
+
+#yesBtn {
+    position: relative;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="box" id="login">
+    <h2>Enter Password 🌸</h2>
+    <input type="password" id="password">
+    <br>
+    <button onclick="checkPassword()">Enter</button>
+</div>
+
+<!-- MENU -->
+<div class="box hidden" id="menu">
+    <h2>hiiiii</h2>
+    <button onclick="explore()">Explore</button>
+</div>
+
+<!-- EXPLORE -->
+<div class="box hidden" id="explorePage">
+    <h2>🎧</h2>
+    <p id="exploreText"></p>
+
+    <div class="playlist-container">
+        <iframe 
+        style="border-radius:12px" 
+        src="https://open.spotify.com/embed/playlist/7hZ9UBozuSzs2ffiPUEO4c"
+        width="100%" 
+        height="352"
+        frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+        </iframe>
+
+        <button class="exit-btn" onclick="tryExit()">Exit</button>
+    </div>
+
+    <button onclick="goBack()">Back</button>
+</div>
+
+<!-- EXIT -->
+<div class="box hidden" id="exitScene">
+    <p id="exitText"></p>
+
+    <div id="choiceBtns" class="hidden">
+        <button id="yesBtn" onmouseover="moveYes()">Yes</button>
+        <button onclick="noChoice()">noo i donnttt</button>
+    </div>
+</div>
+
+<script>
+// PASSWORD + PLOT TWIST
+function checkPassword() {
+    if (document.getElementById("password").value === "oldman") {
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("menu").classList.remove("hidden");
+        explodeHearts();
+    } else {
+        document.body.style.background = "black";
+        document.body.style.color = "red";
+
+        document.getElementById("login").innerHTML =
+            "<h2>ACCESS DENIED</h2><p>...scanning...</p>";
+
+        setTimeout(() => {
+            document.getElementById("login").innerHTML =
+                "<h2>wait...</h2><p>that’s not the password i gave you...</p>";
+        }, 1500);
+
+        setTimeout(() => {
+            document.getElementById("login").innerHTML =
+                "<h2>so who are you trying to log in for? 🤨</h2>";
+        }, 3000);
+
+        setTimeout(() => {
+            document.body.style.background = "";
+            document.body.style.color = "";
+
+            document.getElementById("login").innerHTML =
+                `<h2>Enter Password 🌸</h2>
+                 <input type="password" id="password">
+                 <br>
+                 <button onclick="checkPassword()">Enter</button>`;
+        }, 5000);
+    }
+}
+
+// EXPLORE
+function explore() {
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("explorePage").classList.remove("hidden");
+
+    explodeHearts();
+
+    setTimeout(() => {
+        document.getElementById("exploreText").innerText =
+        "i didn’t expect it… but these songs started sounding like you";
+    }, 1000);
+}
+
+// HEARTS
+function explodeHearts() {
+    for (let i = 0; i < 30; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 4000);
+    }
+}
+
+// BACK
+function goBack() {
+    document.getElementById("explorePage").classList.add("hidden");
+    document.getElementById("menu").classList.remove("hidden");
+}
+
+// EXIT FLOW
+function tryExit() {
+    document.getElementById("explorePage").classList.add("hidden");
+
+    document.body.style.background = "black";
+    document.body.style.color = "lime";
+
+    document.getElementById("exitScene").classList.remove("hidden");
+    document.getElementById("exitText").innerText = "ERROR_403... system breach...";
+
+    setTimeout(() => {
+        document.body.style.background = "";
+        document.body.style.color = "";
+
+        document.getElementById("exitText").innerText = "oh? you’re leaving?";
+        
+        setTimeout(() => {
+            document.getElementById("exitText").innerText = "so… you got another girl?";
+            document.getElementById("choiceBtns").classList.remove("hidden");
+        }, 2000);
+
+    }, 2000);
+}
+
+// MOVING YES
+function moveYes() {
+    let btn = document.getElementById("yesBtn");
+    btn.style.position = "absolute";
+    btn.style.left = Math.random() * 80 + "vw";
+    btn.style.top = Math.random() * 80 + "vh";
+
+    document.getElementById("exitText").innerText = "????";
+}
+
+// NO BUTTON
+function noChoice() {
+    document.getElementById("exitText").innerText = "hmm okay… you better not 😒";
+    speakLine();
+}
+
+// TEASING VOICE 😏
+function speakLine() {
+    if (!('speechSynthesis' in window)) return;
+
+    const msg = new SpeechSynthesisUtterance(
+        "nooo i don’ttt… haha… you’re funny."
+    );
+
+    msg.volume = 1;
+    msg.rate = 0.95;
+    msg.pitch = 1.4;
+
+    const voices = speechSynthesis.getVoices();
+    const softVoice = voices.find(v => v.name.toLowerCase().includes("google") || v.name.toLowerCase().includes("female"));
+    if (softVoice) msg.voice = softVoice;
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(msg);
+}
+</script>
+
+</body>
+</html>
